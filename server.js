@@ -17,6 +17,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
+app.get('/api/users', function (req, res) {
+
+    User.find(function (err, users) {
+
+        if (err)
+            res.send(err);
+        else
+            res.json(users);
+    });
+});
+
+app.post('/api/users', function (req, res) {
+
+    User.create({
+        username: req.body.username,
+        password: req.body.password
+    }, function (err, user) {
+
+        if (err)
+            res.status(409).send(err);
+        else
+            User.findOne({
+                'username': req.body.username
+            }, function (err, user) {
+
+                if (err)
+                    res.send(err);
+                else
+                    res.status(201).json(user);
+            });
+    });
+});
 
 app.get('/api/users/current', function (req, res) {
     
