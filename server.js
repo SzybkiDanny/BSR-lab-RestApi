@@ -20,18 +20,60 @@ app.use(methodOverride());
 
 app.get('/api/users/current', function (req, res) {
     
+    res.json({
+        'username': req.user.username 
+    });
 });
 
 app.get('/api/announcements', function (req, res) {
 
+    Announcement.find(function (err, announcements) {
+
+        if (err)
+            res.send(err);
+        else
+            res.json(announcements);
+    });
 });
 
 app.post('/api/announcements', function (req, res) {
 
+    Announcement.create({
+        text: req.body.text,
+        author: req.user.username
+    }, function (err, announcement) {
+
+        if (err)
+            res.send(err);
+        else
+            Announcement.find(function (err, announcements) {
+
+                if (err)
+                    res.send(err);
+                else
+                    res.status(201).json(announcements);
+            });
+    });
 });
 
 app.delete('/api/announcements/:announcement_id', function (req, res) {
 
+    Announcement.remove({
+        _id: req.params.announcement_id,
+        author: req.user.username
+    }, function (err, announcement) {
+
+        console.log(announcement);
+        if (err)
+            res.send(err);
+        else
+            Announcement.find(function (err, announcements) {
+
+                if (err)
+                    res.send(err);
+                res.json(announcements);
+            });
+    });
 });
 
 app.get('*', function (req, res) {
