@@ -25,10 +25,26 @@ function mainController($scope, $http) {
         if (angular.equals($scope.formData, {}))
             return;
 
+        $http.post('/api/announcements', $scope.formData)
+            .success(function (data) {
+                $scope.formData = {};
+                $scope.announcements = data;
+                console.log(data);
+            })
+            .error(function (data) {
+                console.log('Error: ' + data);
+            });
     };
 
     $scope.deleteAnnouncement = function (id) {
-
+        $http.delete('/api/announcements/' + id)
+            .success(function (data) {
+                $scope.announcements = data;
+                console.log(data);
+            })
+            .error(function (data) {
+                console.log('Error: ' + data);
+            });
     };
 
 }
