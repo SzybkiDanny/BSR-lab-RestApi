@@ -50,6 +50,21 @@ app.post('/api/users', function (req, res) {
     });
 });
 
+app.use(basicAuth(function (username, password, fn) {
+
+    User.findOne({
+        'username': username
+    }, function (err, user) {
+
+        if (err)
+            fn(err, null);
+        else if (user && user.password == password)
+            fn(null, user);
+        else
+            fn(null, null);
+    });
+}));
+
 app.get('/api/users/current', function (req, res) {
     
     res.json({
