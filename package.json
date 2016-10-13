@@ -1,0 +1,16 @@
+{
+  "name": "BBS",
+  "version": "0.0.0",
+  "description": "Simple app allowing users to make announcements",
+  "main": "server.js",
+  "author": "me",
+  "dependencies": {
+    "basic-auth-connect": "^1.0.0",
+    "body-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^5.7.0",
+    "method-override": "^2.1.3",
+    "mongoose": "^4.4.12",
+    "morgan": "^1.1.1"
+  }
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html ng-app="BBS">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BBS</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+        
+        body {
+            padding-top: 50px;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+
+    <script src="app.js"></script>
+
+</head>
+
+<body ng-controller="mainController">
+    <div class="container">
+
+        <div class="jumbotron text-center">
+            <h1>There are: <span class="label label-success">{{ announcements.length }}</span> announcements</h1>
+        </div>
+
+        <hr />
+
+        <div id="announcement-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg text-center" 
+                            placeholder="Announcement to post..." ng-model="formData.text">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg"
+                        ng-click="createAnnouncement()">Post</button>
+                </form>
+            </div>
+        </div>
+
+        <hr />
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-6">Announcement</th>
+                    <th class="col-md-2">Posted</th>
+                    <th class="col-md-2">Author</th>
+                    <th class="col-md-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="announcement in announcements | orderBy:'-date'">
+                    <td> {{announcement.text}} </td>
+                    <td> {{announcement.date | date:'yyyy-MM-dd@HH:mm:ss'}} </td>
+                    <td> {{announcement.author}} </td>
+                    <td>
+                        <button type="button" class="btn btn-link"
+                            ng-show="currentUser.username == announcement.author" 
+                            ng-click="deleteAnnouncement(announcement._id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+
+    </div>
+
+</body>
+
+</html>
